@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.apache.http.ParseException;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.ContentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;

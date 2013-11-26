@@ -19,7 +19,7 @@ public class DefaultFeedCoder extends CoderBase implements FeedCoderInterface {
 
 	/** Constructs new instance with default parameters.
 	 * Default separator character ({@value #DEFAULT_SEPARATOR})
-	 * and default escape character ({@value #DEFAULT_ESCAPE}) will be used.
+	 * and default escape character ({@value CoderBase#DEFAULT_ESCAPE}) will be used.
 	 */
 	public DefaultFeedCoder() {
 		this(DEFAULT_SEPARATOR);

@@ -41,11 +41,6 @@ public class MultipartEntityTest {
 		assertFalse(entity.isChunked());
 	}
 
-	@Test (expected = NotImplementedException.class)
-	public void testConsumeContent() throws IOException {
-		entity.consumeContent();
-	}
-
 	@Test
 	public void testGetContentType() {
 		assertEquals("Content-Type: multipart/form-data; boundary=" + entity.getBoundary(), entity.getContentType().toString());

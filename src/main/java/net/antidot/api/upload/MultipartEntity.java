@@ -136,13 +136,6 @@ public class MultipartEntity extends AbstractHttpEntity {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.apache.http.entity.AbstractHttpEntity#consumeContent()
-	 */
-	public void consumeContent() throws IOException {
-		throw new NotImplementedException("Cannot consume content of multipart entity.");
-	}
-
-	/* (non-Javadoc)
 	 * @see org.apache.http.HttpEntity#getContent()
 	 */
 	public InputStream getContent() throws IOException, IllegalStateException {
