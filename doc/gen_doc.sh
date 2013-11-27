@@ -111,4 +111,8 @@ then
 fi
 
 gen_tag_file class.tags class_list.txt
+
+rm -rf javadoc
+javadoc -charset "UTF-8" -encoding "UTF-8" -docencoding "UTF-8" -windowtitle "Antidot Java API" -doctitle "Antidot Java API" -bottom "Copyright© 2013 Antidot and/or its affiliates. All rights reserved." -keywords -version -use -d $PWD/javadoc -sourcepath $PWD/../src/main/java/ -group "Common Packages" "net.antidot.api.common.*" -group "Antidot search engine API" "net.antidot.api.search.*" -group "Antidot PaF management" "net.antidot.api.upload.*" net.antidot.api.common net.antidot.api.search net.antidot.api.upload
+
 doxygen afs_lib.doxygen
