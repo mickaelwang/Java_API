@@ -10,7 +10,7 @@ import net.antidot.protobuf.query.PagerProto.Pager;
  */
 public class PagerHelper {
 	private Pager pager;
-	private QueryEncoder queryCoder;
+	private QueryCoder queryCoder;
 	private Query query;
 
 	/** Constructs reply set pager helper.
@@ -20,7 +20,7 @@ public class PagerHelper {
 	 * @param queryCoder [in] coder used to generate links.
 	 * @param query [in] query corresponding to current result page. It is also used to generate links. 
 	 */
-	public PagerHelper(Pager pagerPb, QueryEncoder queryCoder, Query query) {
+	public PagerHelper(Pager pagerPb, QueryCoder queryCoder, Query query) {
 		this.pager = pagerPb;
 		this.queryCoder = queryCoder;
 		this.query = query;

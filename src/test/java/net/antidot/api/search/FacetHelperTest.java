@@ -65,8 +65,8 @@ public class FacetHelperTest extends ProtobufLoader {
 		facetRegistry.addFacet(new Facet(facetId, FacetType.BOOL, FacetMode.REPLACE));
 		Query query = Query.create();
 		CoderManager coderMgr = new CoderManager();
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 		FacetHelper helper = new FacetHelper(loadProtobuf("good_reply_with_facets.protobuf").getReplySet(0).getFacets().getFacet(9), facetRegistry, coder, query);
 		
 		try {
@@ -85,8 +85,8 @@ public class FacetHelperTest extends ProtobufLoader {
 		facetRegistry.addFacet(new Facet(facetId, FacetType.BOOL, FacetMode.REPLACE));
 		Query query = Query.create().setFilter(facetId, "bar");
 		CoderManager coderMgr = new CoderManager();
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 		FacetHelper helper = new FacetHelper(loadProtobuf("good_reply_with_facets.protobuf").getReplySet(0).getFacets().getFacet(9), facetRegistry, coder, query);
 		
 		try {
@@ -105,8 +105,8 @@ public class FacetHelperTest extends ProtobufLoader {
 		facetRegistry.addFacet(new Facet(facetId, FacetType.BOOL, FacetMode.ADD));
 		Query query = Query.create().setFilter(facetId, "bar");
 		CoderManager coderMgr = new CoderManager();
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 		FacetHelper helper = new FacetHelper(loadProtobuf("good_reply_with_facets.protobuf").getReplySet(0).getFacets().getFacet(9), facetRegistry, coder, query);
 		
 		try {
@@ -125,8 +125,8 @@ public class FacetHelperTest extends ProtobufLoader {
 		facetRegistry.addFacet(new Facet(facetId, FacetType.BOOL, FacetMode.ADD));
 		Query query = Query.create().setFilter(facetId, "bar");
 		CoderManager coderMgr = new CoderManager();
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 		FacetHelper helper = new FacetHelper(loadProtobuf("good_reply_with_facets.protobuf").getReplySet(0).getFacets().getFacet(9), facetRegistry, coder, query);
 		
 		assertTrue(helper.isSet("bar"));

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -40,7 +41,7 @@ public class QueryCoderTest {
 	@Test
 	public void testLinkWithoutParameter() {
 		try {
-			QueryEncoder coder = new QueryEncoder("http://foo", coderMgr);
+			QueryCoder coder = new QueryCoder("http://foo", coderMgr);
 			assertEquals("http://foo", coder.generateLink(query));
 		} catch (URISyntaxException e) {
 			fail("Should not have failed with: " + e.getMessage());
@@ -51,8 +52,8 @@ public class QueryCoderTest {
 	public void testLinkWithFeed() {
 		when(query.hasFeed()).thenReturn(true);
 		when(query.getFeeds()).thenReturn(new TreeSet<String>());
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 
 		try {
 			assertEquals("http://foo?feed=encodedFeed", coder.generateLink(query));
@@ -65,8 +66,8 @@ public class QueryCoderTest {
 	public void testLinkWithPage() {
 		when(query.hasPage()).thenReturn(true);
 		when(query.getPage()).thenReturn(42L);
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 
 		try {
 			assertEquals("http://foo?page=42", coder.generateLink(query));
@@ -79,8 +80,8 @@ public class QueryCoderTest {
 	public void testLinkWithQuery() {
 		when(query.hasSearchString()).thenReturn(true);
 		when(query.getSearchString()).thenReturn("query");
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 
 		try {
 			assertEquals("http://foo?query=query", coder.generateLink(query));
@@ -93,8 +94,8 @@ public class QueryCoderTest {
 	public void testLinkWithReplies() {
 		when(query.hasReplies()).thenReturn(true);
 		when(query.getReplies()).thenReturn(666);
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 
 		try {
 			assertEquals("http://foo?replies=666", coder.generateLink(query));
@@ -107,8 +108,8 @@ public class QueryCoderTest {
 	public void testLinkWithLanguage() {
 		when(query.hasLanguage()).thenReturn(true);
 		when(query.getLanguage()).thenReturn("en-US");
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 
 		try {
 			assertEquals("http://foo?lang=en-US", coder.generateLink(query));
@@ -121,8 +122,8 @@ public class QueryCoderTest {
 	public void testLinkWithSort() {
 		when(query.hasSort()).thenReturn(true);
 		when(query.getSort()).thenReturn("sorted");
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 
 		try {
 			assertEquals("http://foo?sort=sorted", coder.generateLink(query));
@@ -135,8 +136,8 @@ public class QueryCoderTest {
 	public void testLinkWithFilter() {
 		when(query.hasFilter()).thenReturn(true);
 		when(query.getFilters()).thenReturn(new TreeMap<String, Set<String>>());
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 
 		try {
 			assertEquals("http://foo?filter=encodedFilter", coder.generateLink(query));
@@ -149,8 +150,8 @@ public class QueryCoderTest {
 	public void testLinkWithPageAndReplies() {
 		when(query.hasPage()).thenReturn(true);
 		when(query.getPage()).thenReturn(42L);
-		QueryEncoder coder = null;
-		coder = new QueryEncoder("http://foo", coderMgr);
+		QueryCoder coder = null;
+		coder = new QueryCoder("http://foo", coderMgr);
 		try {
 			assertEquals("http://foo?page=42", coder.generateLink(query));
 		} catch (URISyntaxException e) {
@@ -168,4 +169,95 @@ public class QueryCoderTest {
 
 	}
 
+	@Test
+	public void testCreateQueryFromQueryStringWithPage() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("page", new String[]{"42"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasPage());
+		assertEquals(42L, query.getPage());
+	}
+	
+	@Test
+	public void testCreateQueryFromQueryStringWithReplies() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("replies", new String[]{"42"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasReplies());
+		assertEquals(42, query.getReplies());
+	}
+	
+	@Test
+	public void testCreateQueryFromQueryStringWithQuery() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("query", new String[]{"42"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasSearchString());
+		assertEquals("42", query.getSearchString());
+	}
+	
+	@Test
+	public void testCreateQueryFromQueryStringWithFeed() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("feed", new String[]{"foo"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasFeed());
+		assertTrue(query.hasFeed("foo"));
+		assertEquals(1, query.getFeeds().size());
+	}
+	
+	@Test
+	public void testCreateQueryFromQueryStringWithLanguage() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("lang", new String[]{"en"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasLanguage());
+		assertEquals("en", query.getLanguage());
+	}
+	
+	@Test
+	public void testCreateQueryFromQueryStringWithSort() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("sort", new String[]{"afs:foo"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasSort());
+		assertEquals("afs:foo", query.getSort());
+	}
+	
+	@Test
+	public void testCreateQueryFromQueryStringWithFilter() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("filter", new String[]{"foo_bar"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasFilter());
+		String[] values = query.getFilterValues("foo");
+		assertEquals(1, values.length);
+		assertEquals("bar", values[0]);
+	}
+	
+	@Test
+	public void testCreateQueryFromQueryStringWithPageAndOtherParameter() {
+		CoderManager coderMgr = new CoderManager();
+		Map<String, String[]> parameters = new TreeMap<String, String[]>();
+		parameters.put("replies", new String[]{"42"});
+		parameters.put("page", new String[]{"666"});
+		Query query = new QueryCoder("foo", coderMgr).decode(parameters);
+		
+		assertTrue(query.hasPage());
+		assertEquals(666, query.getPage());
+	}
 }

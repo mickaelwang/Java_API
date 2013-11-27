@@ -20,14 +20,14 @@ public class ReplySetHelper {
 	private ArrayList<FacetHelper> facets;
 
 	private FacetRegistry facetRegistry;
-	private QueryEncoder queryCoder;
+	private QueryCoder queryCoder;
 	private Query query;
 
 	/** Constructs helper from reply set protobuf.
 	 * @param replySetPb [in] Google protobuf.
 	 * @exception IncompleteReplySetException no meta data available for the reply set (this should never happen).
 	 */
-	public ReplySetHelper(ReplySet replySetPb, FacetRegistry facetRegistry, QueryEncoder queryCoder, Query query) {
+	public ReplySetHelper(ReplySet replySetPb, FacetRegistry facetRegistry, QueryCoder queryCoder, Query query) {
 		this.replySet = replySetPb;
 		this.facetRegistry = facetRegistry;
 		this.queryCoder = queryCoder;

@@ -12,7 +12,7 @@ import net.antidot.protobuf.lang.Label.LocalizedLabel;
 public class FacetHelper {
 	private Facet facetPb;
 	private net.antidot.api.search.Facet facet;
-	private QueryEncoder queryCoder;
+	private QueryCoder queryCoder;
 	private Query query;
 
 	/** Constructs facet helper from Google protobuf.
@@ -25,7 +25,7 @@ public class FacetHelper {
 	 * @param query [in] query corresponding to current result page. It is also used to generate links. 
 	 * @throws IllegalArgumentException when facet identifier has not been registered to facet registry.
 	 */
-	public FacetHelper(Facet facetPb, FacetRegistry facetRegistry, QueryEncoder queryCoder, Query query) {
+	public FacetHelper(Facet facetPb, FacetRegistry facetRegistry, QueryCoder queryCoder, Query query) {
 		this.facetPb = facetPb;
 		this.facet = facetRegistry.getFacet(getId());
 		this.queryCoder = queryCoder;

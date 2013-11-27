@@ -26,13 +26,13 @@ public class RepliesHelper {
 	private Iterator<ReplySet> replySetIt = null;
 
 	private FacetRegistry facetRegistry;
-	private QueryEncoder queryCoder;
+	private QueryCoder queryCoder;
 	private Query query;
 
 	/** Constructs helper from Google protobuf.
 	 * @param repliesPb [in] appropriately filled protobuf.
 	 */
-	public RepliesHelper(replies repliesPb, FacetRegistry facetRegistry, QueryEncoder queryCoder, Query query) {
+	public RepliesHelper(replies repliesPb, FacetRegistry facetRegistry, QueryCoder queryCoder, Query query) {
 		this.replies = repliesPb;
 		this.facetRegistry = facetRegistry;
 		this.queryCoder = queryCoder;

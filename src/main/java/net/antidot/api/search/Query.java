@@ -1,12 +1,10 @@
 package net.antidot.api.search;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import net.antidot.common.lang.LangProtos.Lang;
@@ -65,51 +63,6 @@ public class Query {
 	 */
 	public static Query create() {
 		return new Query();
-	}
-	
-	/** Creates new query from parameters.
-	 * <p>
-	 * This method should be called with parameters coming from URL parameters.
-	 * @param parameters [in] parameters used to initialize the query.
-	 * @param coderMgr [in] manager for various coders (feed, filter...). 
-	 * @return newly created query.
-	 */
-	public static Query create(Map<String, String[]> parameters, CoderManager coderMgr) {
-		Query result = new Query();
-		Integer page = null; // Page should be set last otherwise it is reset to 1
-		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
-			String key = entry.getKey();
-			String[] values = entry.getValue(); // should always contain one value
-			for (String value : values) {
-				if (key.equals(FILTER)) {
-					for (Entry<String, List<String>> decoded : coderMgr.getFilterCoder().decode(value).entrySet()) {
-						for (String filterValue : decoded.getValue()) {
-							result = result.addFilter(decoded.getKey(), filterValue);
-						}
-					}
-				} else if (key.equals(QUERY)) {
-					result = result.setSearchString(value);
-				} else if (key.equals(PAGE)) {
-					page = Integer.parseInt(value);
-				} else if (key.equals(REPLIES)) {
-					result = result.setReplies(Integer.parseInt(value));
-				} else if (key.equals(FEED)) {
-					for (String decoded : coderMgr.getFeedCoder().decode(value)) {
-						result = result.addFeed(decoded);
-					}
-				} else if (key.equals(LANG)) {
-					result = result.setLanguage(value);
-				} else if (key.equals(SORT)) {
-					result = result.setSort(value);
-				} else {
-					Logger.getLogger("search").warning("Ignoring unknown parameter: " + key);
-				}
-			}
-		}
-		if (page != null) {
-			result = result.setPage(page);
-		}
-		return result;
 	}
 	
 	private static Query copyAndResetPage(Query other) {

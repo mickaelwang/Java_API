@@ -2,8 +2,6 @@ package net.antidot.api.search;
 
 import static org.junit.Assert.*;
 
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import net.antidot.common.lang.LangProtos.Lang;
@@ -393,98 +391,6 @@ public class QueryTest {
 		assertTrue(query.hasPage());
 		query = query.setSort("afs:relevance");
 		assertFalse(query.hasPage());
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithPage() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("page", new String[]{"42"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasPage());
-		assertEquals(42L, query.getPage());
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithReplies() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("replies", new String[]{"42"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasReplies());
-		assertEquals(42, query.getReplies());
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithQuery() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("query", new String[]{"42"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasSearchString());
-		assertEquals("42", query.getSearchString());
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithFeed() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("feed", new String[]{"foo"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasFeed());
-		assertTrue(query.hasFeed("foo"));
-		assertEquals(1, query.getFeeds().size());
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithLanguage() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("lang", new String[]{"en"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasLanguage());
-		assertEquals("en", query.getLanguage());
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithSort() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("sort", new String[]{"afs:foo"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasSort());
-		assertEquals("afs:foo", query.getSort());
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithFilter() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("filter", new String[]{"foo_bar"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasFilter());
-		String[] values = query.getFilterValues("foo");
-		assertEquals(1, values.length);
-		assertEquals("bar", values[0]);
-	}
-	
-	@Test
-	public void testCreateQueryFromQueryStringWithPageAndOtherParameter() {
-		CoderManager coderMgr = new CoderManager();
-		Map<String, String[]> parameters = new TreeMap<String, String[]>();
-		parameters.put("replies", new String[]{"42"});
-		parameters.put("page", new String[]{"666"});
-		Query query = Query.create(parameters, coderMgr);
-		
-		assertTrue(query.hasPage());
-		assertEquals(666, query.getPage());
 	}
 	
 	@Test
