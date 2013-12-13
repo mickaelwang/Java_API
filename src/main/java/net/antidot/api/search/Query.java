@@ -427,7 +427,8 @@ public class Query {
 	
 	/** Defines new sort order replacing existing one.
 	 * <p>
-	 * Sort order should match following regular expression: <tt>afs:[a-zA-Z]+(?:,(?:ASC|DESC))?(?:;afs:[a-zA-Z]+(?:,(?:ASC|DESC))?)*</tt>.
+	 * Sort order should match following regular expression:
+	 * <tt>[a-zA-Z][a-zA-Z0-9_:]*(?:,(?:ASC|DESC))?(?:;[a-zA-Z][a-zA-Z0-9_:]*(?:,(?:ASC|DESC))?)*</tt>.
 	 * @param sortOrder [in] new sort order.
 	 * @return copy of the query with new parameter value.
 	 */
@@ -437,7 +438,7 @@ public class Query {
 			if (sortOrder.isEmpty()) {
 				sortOrder = null;
 			} else {
-				String basicPattern = "afs:[a-zA-Z]+(?:,(?:ASC|DESC))?";
+				String basicPattern = "[a-zA-Z][a-zA-Z0-9_:]*(?:,(?:ASC|DESC))?";
 				Pattern pattern = Pattern.compile("^" + basicPattern + "(?:;" + basicPattern + ")*$");
 				if (! pattern.matcher(sortOrder).matches()) {
 					throw new IllegalArgumentException("Invalid sort order value provided: " + sortOrder);

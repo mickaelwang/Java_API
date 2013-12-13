@@ -301,19 +301,16 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testSetSortInvalidFormat() {
-		try {
-			Query.create().setSort("afs:relevance,ASC;afs:weight,DESC;afs:words,");
-		} catch (IllegalArgumentException e) {
-			return;
-		}
-		fail("Exception should have been raised.");
+	public void testSetSortCustomFacetName() {
+		Query query = Query.create().setSort("foo");
+		assertTrue(query.hasSort());
+		assertEquals("foo", query.getSort());
 	}
 
 	@Test
-	public void testSetSortInvalidParam() {
+	public void testSetSortInvalidFormat() {
 		try {
-			Query.create().setSort("foo");
+			Query.create().setSort("afs:relevance,ASC;afs:weight,DESC;afs:words,");
 		} catch (IllegalArgumentException e) {
 			return;
 		}
