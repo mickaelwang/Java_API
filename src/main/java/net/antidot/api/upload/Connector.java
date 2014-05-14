@@ -5,19 +5,18 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
 import net.antidot.api.common.Authentication;
 import net.antidot.api.common.BadReplyException;
 import net.antidot.api.common.Scheme;
 import net.antidot.api.common.Service;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 
 /** PaF upload connector.
@@ -118,7 +117,7 @@ public class Connector {
 	
 	protected Reply upload(DocumentManager mgr, String comment) throws URISyntaxException, ClientProtocolException, IOException {
 		MultipartEntity entity = new MultipartEntity(mgr);
-		URI uri = this.buildUri(comment);
+		URI uri = URLHelper.buildUri(this.scheme, this.host, this.authentication, this.service, this.pafName, comment);
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(uri);
@@ -147,25 +146,5 @@ public class Connector {
 		}
 	}
 
-	private URI buildUri(String comment) throws URISyntaxException {
-		URIBuilder uriBuilder = new URIBuilder()
-							  .setScheme(this.scheme.value())
-							  .setHost(this.host)
-							  .setPath(this.buildPath())
-							  .setParameter("afs:login", this.buildAuthentication());
-		if (comment != null) {
-			uriBuilder.setParameter("comment", comment);
-		}
-		return uriBuilder.build();
-	}
-
-	private String buildPath() {
-		return "/bo-ws/service/" + this.service.getId() + "/instance/" + 
-				this.service.getStatus() + "/paf/" + this.pafName + "/upload";
-	}
-
-	private String buildAuthentication() {
-		return "login://" + this.authentication.getUser() + ":" + 
-				this.authentication.getPassword() + "@" + this.authentication.getAuthority();
-	}
+	
 }
