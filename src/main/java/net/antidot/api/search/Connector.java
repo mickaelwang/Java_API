@@ -6,8 +6,10 @@ package net.antidot.api.search;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -18,14 +20,16 @@ import net.antidot.api.common.BadReplyException;
 import net.antidot.api.common.Scheme;
 import net.antidot.api.common.Service;
 
+import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.apache.commons.validator.routines.DomainValidator;
 
 
 /** Antidot search engine connector.
@@ -107,11 +111,17 @@ public class Connector implements ConnectorInterface {
 
 	private URI buildUri(Map<String, Collection<String>> params) {
 		URIBuilder uriBuilder = getUriBuilder();
+		List<NameValuePair> namesVal = new ArrayList<NameValuePair>();
 		for (Entry<String, Collection<String>> entry : params.entrySet()) {
 			for (String value : entry.getValue()) {
-				uriBuilder.setParameter(entry.getKey(), value);
+				//TODO : Fonctionnement si plusieurs fois la meme clef ??
+				//uriBuilder.setParameter(entry.getKey(), value);
+				namesVal.add(new BasicNameValuePair(entry.getKey(), value));
 			}
 		}
+		
+		uriBuilder.setParameters(namesVal);
+		
 		try {
 			return uriBuilder.build();
 		} catch (URISyntaxException e) {

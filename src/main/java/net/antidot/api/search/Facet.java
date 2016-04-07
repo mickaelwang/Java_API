@@ -26,6 +26,10 @@ public class Facet {
 		this(id, type, FacetMode.REPLACE);
 	}
 	
+	public Facet(String id, FacetType type, FacetStickyness stickyness) {
+		this(id, type, FacetMode.REPLACE, FacetCombination.OR, stickyness);
+	}
+	
 	/** Constructs new facet configuration with its identifier, type and mode.
 	 * <p>
 	 * Default facet value combination is set to {@link FacetCombination#OR}.
